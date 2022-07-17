@@ -239,6 +239,10 @@ qemu: $(UCOREIMG)
 qemu-nox: $(UCOREIMG)
 	$(V)$(QEMU)  -no-reboot -serial mon:stdio $(QEMUOPTS) -nographic
 
+debug-clion: $(UCOREIMG) $(SWAPIMG) $(SFSIMG)
+	qemu-system-i386 -S -s -hda ./bin/ucore.img -monitor stdio
+
+
 TERMINAL := gnome-terminal
 
 debug: $(UCOREIMG)

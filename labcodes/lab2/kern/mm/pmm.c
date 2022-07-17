@@ -232,6 +232,8 @@ page_init(void) {
                 begin = ROUNDUP(begin, PGSIZE);
                 end = ROUNDDOWN(end, PGSIZE);
                 if (begin < end) {
+
+                    cprintf("memory: %08llx,%08llx\n",begin,&begin);
                     init_memmap(pa2page(begin), (end - begin) / PGSIZE);
                 }
             }

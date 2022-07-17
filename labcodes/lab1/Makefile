@@ -226,6 +226,9 @@ debug-nox: $(UCOREIMG)
 	$(V)sleep 2
 	$(V)$(TERMINAL) -e "gdb -q -x tools/gdbinit"
 
+debug-clion: $(UCOREIMG) $(SWAPIMG) $(SFSIMG)
+	qemu-system-i386 -S -s -hda ./bin/ucore.img -monitor stdio
+
 .PHONY: grade touch
 
 GRADE_GDB_IN	:= .gdb.in
