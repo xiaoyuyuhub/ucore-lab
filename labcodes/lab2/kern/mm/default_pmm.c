@@ -108,7 +108,7 @@ static void
 default_init_memmap(struct Page *base, size_t n) {
     assert(n > 0);
     struct Page *p = base;
-    for (; p != base + n; p ++) {
+    for (; p != base + n; p++) {
         assert(PageReserved(p));
         p->flags = p->property = 0;
         set_page_ref(p, 0);
@@ -135,12 +135,14 @@ default_alloc_pages(size_t n) {
         }
     }
     if (page != NULL) {
-        list_del(&(page->page_link));
+
         if (page->property > n) {
             struct Page *p = page + n;
             p->property = page->property - n;
-            list_add(&free_list, &(p->page_link));
-    }
+            SetPageProperty(p);
+            list_add(&free_list, &(p->page_link)); //?
+        }
+        list_del(&(page->page_link));
         nr_free -= n;
         ClearPageProperty(page);
     }
@@ -150,8 +152,18 @@ default_alloc_pages(size_t n) {
 static void
 default_free_pages(struct Page *base, size_t n) {
     assert(n > 0);
+    struct Page *p1;
+
+    list_entry_t *le1 = list_next(&free_list);
+    while (le1 != &free_list) {
+        p1 = le2page(le1, page_link);
+        le1=list_next(le1);
+        cprintf("le:%x page:%x",le1 , p1);
+    }
+    cprintf("\n\n");
+
     struct Page *p = base;
-    for (; p != base + n; p ++) {
+    for (; p != base + n; p++) {
         assert(!PageReserved(p) && !PageProperty(p));
         p->flags = 0;
         set_page_ref(p, 0);
@@ -166,16 +178,29 @@ default_free_pages(struct Page *base, size_t n) {
             base->property += p->property;
             ClearPageProperty(p);
             list_del(&(p->page_link));
-        }
-        else if (p + p->property == base) {
+        } else if (p + p->property == base) {
             p->property += base->property;
             ClearPageProperty(base);
-            base = p;
+            base = p;//?
             list_del(&(p->page_link));
         }
     }
+
+
+
     nr_free += n;
-    list_add(&free_list, &(base->page_link));
+    le = list_next(&free_list);
+    while (le != &free_list) {
+        p = le2page(le, page_link);
+        le = list_next(le);
+        if (base + base->property < p) {
+            break;
+        }
+
+    }
+//    list_add_before(le, &(base->page_link));
+    list_add(le,&(base->page_link));
+
 }
 
 static size_t
@@ -218,7 +243,27 @@ basic_check(void) {
 
     assert(alloc_page() == NULL);
 
+    struct Page *pp1;
+
+    list_entry_t *le1 = list_next(&free_list);
+    while (le1 != &free_list) {
+        pp1 = le2page(le1, page_link);
+        le1=list_next(le1);
+        cprintf("le:%x page:%x",le1 , pp1);
+    }
+    cprintf("\n\n");
+
     free_page(p0);
+
+    le1 = list_next(&free_list);
+    while (le1 != &free_list) {
+        pp1 = le2page(le1, page_link);
+        le1=list_next(le1);
+        cprintf("le:%x page:%x",le1 , pp1);
+    }
+    cprintf("\n\n");
+
+
     assert(!list_empty(&free_list));
 
     struct Page *p;
@@ -243,7 +288,7 @@ default_check(void) {
     while ((le = list_next(le)) != &free_list) {
         struct Page *p = le2page(le, page_link);
         assert(PageProperty(p));
-        count ++, total += p->property;
+        count++, total += p->property;
     }
     assert(total == nr_free_pages());
 
@@ -294,19 +339,19 @@ default_check(void) {
     while ((le = list_next(le)) != &free_list) {
         assert(le->next->prev == le && le->prev->next == le);
         struct Page *p = le2page(le, page_link);
-        count --, total -= p->property;
+        count--, total -= p->property;
     }
     assert(count == 0);
     assert(total == 0);
 }
 
 const struct pmm_manager default_pmm_manager = {
-    .name = "default_pmm_manager",
-    .init = default_init,
-    .init_memmap = default_init_memmap,
-    .alloc_pages = default_alloc_pages,
-    .free_pages = default_free_pages,
-    .nr_free_pages = default_nr_free_pages,
-    .check = default_check,
+        .name = "default_pmm_manager",
+        .init = default_init,
+        .init_memmap = default_init_memmap,
+        .alloc_pages = default_alloc_pages,
+        .free_pages = default_free_pages,
+        .nr_free_pages = default_nr_free_pages,
+        .check = default_check,
 };
 

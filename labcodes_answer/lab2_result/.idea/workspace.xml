@@ -13,20 +13,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da1d345a-cfcf-44f6-a449-35c79986dbc4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../.idea/ucore-lab.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../labcodes/lab2/1.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../labcodes/lab2/2.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../labcodes/lab2/3.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab1/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab1/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab1/kern/trap/trap.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab1/kern/trap/trap.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/kern/debug/kdebug.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/kern/debug/kdebug.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/pmm.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/pmm.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/kern/trap/trap.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/kern/trap/trap.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel_nopage" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel_nopage" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/bin/ucore.img" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/bin/ucore.img" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/default_pmm.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/default_pmm.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/default_pmm.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/default_pmm.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/pmm.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/pmm.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.asm" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.asm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.sym" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.asm" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.asm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.sym" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.sym" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,18 +84,6 @@
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -108,6 +93,8 @@
       <option name="presentableId" value="Default" />
       <updated>1658039199868</updated>
       <workItem from="1658039201799" duration="30000" />
+      <workItem from="1658060256941" duration="3561000" />
+      <workItem from="1658218821708" duration="55000" />
     </task>
     <servers />
   </component>
@@ -124,5 +111,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
