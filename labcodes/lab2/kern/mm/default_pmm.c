@@ -154,13 +154,15 @@ default_free_pages(struct Page *base, size_t n) {
     assert(n > 0);
     struct Page *p1;
 
-    list_entry_t *le1 = list_next(&free_list);
-    while (le1 != &free_list) {
-        p1 = le2page(le1, page_link);
-        le1=list_next(le1);
-        cprintf("le:%x page:%x",le1 , p1);
-    }
-    cprintf("\n\n");
+//    cprintf("free_list:%x",&free_list);
+//    list_entry_t *le1 = list_next(&free_list);
+//
+//    while (le1 != &free_list) {
+//        p1 = le2page(le1, page_link);
+//        cprintf("le:%x page:%x",le1 , p1);
+//        le1=list_next(le1);
+//    }
+//    cprintf("\n\n");
 
     struct Page *p = base;
     for (; p != base + n; p++) {
@@ -187,8 +189,9 @@ default_free_pages(struct Page *base, size_t n) {
     }
 
 
-
+    cprintf("%d",nr_free);
     nr_free += n;
+    cprintf("%d",nr_free);
     le = list_next(&free_list);
     while (le != &free_list) {
         p = le2page(le, page_link);
@@ -198,8 +201,18 @@ default_free_pages(struct Page *base, size_t n) {
         }
 
     }
-//    list_add_before(le, &(base->page_link));
-    list_add(le,&(base->page_link));
+
+    //这里理解为什么要用add——before，因为是FF，先进先出
+    list_add_before(le, &(base->page_link));
+//    list_add(le,&(base->page_link));
+
+//    le1 = list_next(&free_list);
+//    while (le1 != &free_list) {
+//        p1 = le2page(le1, page_link);
+//        cprintf("le:%x page:%x",le1 , p1);
+//        le1=list_next(le1);
+//    }
+//    cprintf("\n\n");
 
 }
 
@@ -313,6 +326,7 @@ default_check(void) {
     assert(alloc_page() == NULL);
     assert(p0 + 2 == p1);
 
+    //h
     p2 = p0 + 1;
     free_page(p0);
     free_pages(p1, 3);

@@ -58,8 +58,8 @@ const struct pmm_manager *pmm_manager;
  * always available at virtual address PGADDR(PDX(VPT), PDX(VPT), 0), to which
  * vpd is set bellow.
  * */
-pte_t * const vpt = (pte_t *)VPT;
-pde_t * const vpd = (pde_t *)PGADDR(PDX(VPT), PDX(VPT), 0);
+pte_t *const vpt = (pte_t *) VPT;
+pde_t *const vpd = (pde_t *) PGADDR(PDX(VPT), PDX(VPT), 0);
 
 /* *
  * Global Descriptor Table:
@@ -75,20 +75,22 @@ pde_t * const vpd = (pde_t *)PGADDR(PDX(VPT), PDX(VPT), 0);
  *   - 0x28:  defined for tss, initialized in gdt_init
  * */
 static struct segdesc gdt[] = {
-    SEG_NULL,
-    [SEG_KTEXT] = SEG(STA_X | STA_R, 0x0, 0xFFFFFFFF, DPL_KERNEL),
-    [SEG_KDATA] = SEG(STA_W, 0x0, 0xFFFFFFFF, DPL_KERNEL),
-    [SEG_UTEXT] = SEG(STA_X | STA_R, 0x0, 0xFFFFFFFF, DPL_USER),
-    [SEG_UDATA] = SEG(STA_W, 0x0, 0xFFFFFFFF, DPL_USER),
-    [SEG_TSS]   = SEG_NULL,
+        SEG_NULL,
+        [SEG_KTEXT] = SEG(STA_X | STA_R, 0x0, 0xFFFFFFFF, DPL_KERNEL),
+        [SEG_KDATA] = SEG(STA_W, 0x0, 0xFFFFFFFF, DPL_KERNEL),
+        [SEG_UTEXT] = SEG(STA_X | STA_R, 0x0, 0xFFFFFFFF, DPL_USER),
+        [SEG_UDATA] = SEG(STA_W, 0x0, 0xFFFFFFFF, DPL_USER),
+        [SEG_TSS]   = SEG_NULL,
 };
 
 static struct pseudodesc gdt_pd = {
-    sizeof(gdt) - 1, (uintptr_t)gdt
+        sizeof(gdt) - 1, (uintptr_t) gdt
 };
 
 static void check_alloc_page(void);
+
 static void check_pgdir(void);
+
 static void check_boot_pgdir(void);
 
 /* *
@@ -97,14 +99,14 @@ static void check_boot_pgdir(void);
  * */
 static inline void
 lgdt(struct pseudodesc *pd) {
-    asm volatile ("lgdt (%0)" :: "r" (pd));
-    asm volatile ("movw %%ax, %%gs" :: "a" (USER_DS));
-    asm volatile ("movw %%ax, %%fs" :: "a" (USER_DS));
-    asm volatile ("movw %%ax, %%es" :: "a" (KERNEL_DS));
-    asm volatile ("movw %%ax, %%ds" :: "a" (KERNEL_DS));
-    asm volatile ("movw %%ax, %%ss" :: "a" (KERNEL_DS));
+    asm volatile ("lgdt (%0)"::"r" (pd));
+    asm volatile ("movw %%ax, %%gs"::"a" (USER_DS));
+    asm volatile ("movw %%ax, %%fs"::"a" (USER_DS));
+    asm volatile ("movw %%ax, %%es"::"a" (KERNEL_DS));
+    asm volatile ("movw %%ax, %%ds"::"a" (KERNEL_DS));
+    asm volatile ("movw %%ax, %%ss"::"a" (KERNEL_DS));
     // reload cs
-    asm volatile ("ljmp %0, $1f\n 1:\n" :: "i" (KERNEL_CS));
+    asm volatile ("ljmp %0, $1f\n 1:\n"::"i" (KERNEL_CS));
 }
 
 /* *
@@ -121,11 +123,11 @@ load_esp0(uintptr_t esp0) {
 static void
 gdt_init(void) {
     // set boot kernel stack and default SS0
-    load_esp0((uintptr_t)bootstacktop);
+    load_esp0((uintptr_t) bootstacktop);
     ts.ts_ss0 = KERNEL_DS;
 
     // initialize the TSS filed of the gdt
-    gdt[SEG_TSS] = SEGTSS(STS_T32A, (uintptr_t)&ts, sizeof(ts), DPL_KERNEL);
+    gdt[SEG_TSS] = SEGTSS(STS_T32A, (uintptr_t) & ts, sizeof(ts), DPL_KERNEL);
 
     // reload all segment registers
     lgdt(&gdt_pd);
@@ -151,7 +153,7 @@ init_memmap(struct Page *base, size_t n) {
 //alloc_pages - call pmm->alloc_pages to allocate a continuous n*PAGESIZE memory 
 struct Page *
 alloc_pages(size_t n) {
-    struct Page *page=NULL;
+    struct Page *page = NULL;
     bool intr_flag;
     local_intr_save(intr_flag);
     {
@@ -189,12 +191,12 @@ nr_free_pages(void) {
 /* pmm_init - initialize the physical memory management */
 static void
 page_init(void) {
-    struct e820map *memmap = (struct e820map *)(0x8000 + KERNBASE);
+    struct e820map *memmap = (struct e820map *) (0x8000 + KERNBASE);
     uint64_t maxpa = 0;
 
     cprintf("e820map:\n");
     int i;
-    for (i = 0; i < memmap->nr_map; i ++) {
+    for (i = 0; i < memmap->nr_map; i++) {
         uint64_t begin = memmap->map[i].addr, end = begin + memmap->map[i].size;
         cprintf("  memory: %08llx, [%08llx, %08llx], type = %d.\n",
                 memmap->map[i].size, begin, end - 1, memmap->map[i].type);
@@ -211,15 +213,15 @@ page_init(void) {
     extern char end[];
 
     npage = maxpa / PGSIZE;
-    pages = (struct Page *)ROUNDUP((void *)end, PGSIZE);
+    pages = (struct Page *) ROUNDUP((void *) end, PGSIZE);
 
-    for (i = 0; i < npage; i ++) {
+    for (i = 0; i < npage; i++) {
         SetPageReserved(pages + i);
     }
 
-    uintptr_t freemem = PADDR((uintptr_t)pages + sizeof(struct Page) * npage);
+    uintptr_t freemem = PADDR((uintptr_t) pages + sizeof(struct Page) * npage);
 
-    for (i = 0; i < memmap->nr_map; i ++) {
+    for (i = 0; i < memmap->nr_map; i++) {
         uint64_t begin = memmap->map[i].addr, end = begin + memmap->map[i].size;
         if (memmap->map[i].type == E820_ARM) {
             if (begin < freemem) {
@@ -233,7 +235,7 @@ page_init(void) {
                 end = ROUNDDOWN(end, PGSIZE);
                 if (begin < end) {
 
-                    cprintf("memory: %08llx,%08llx\n",begin,&begin);
+                    cprintf("memory: %08llx,%08llx\n", begin, &begin);
                     init_memmap(pa2page(begin), (end - begin) / PGSIZE);
                 }
             }
@@ -253,7 +255,7 @@ boot_map_segment(pde_t *pgdir, uintptr_t la, size_t size, uintptr_t pa, uint32_t
     size_t n = ROUNDUP(size + PGOFF(la), PGSIZE) / PGSIZE;
     la = ROUNDDOWN(la, PGSIZE);
     pa = ROUNDDOWN(pa, PGSIZE);
-    for (; n > 0; n --, la += PGSIZE, pa += PGSIZE) {
+    for (; n > 0; n--, la += PGSIZE, pa += PGSIZE) {
         pte_t *ptep = get_pte(pgdir, la, 1);
         assert(ptep != NULL);
         *ptep = pa | PTE_P | perm;
@@ -361,6 +363,20 @@ get_pte(pde_t *pgdir, uintptr_t la, bool create) {
     }
     return NULL;          // (8) return page table entry
 #endif
+    pde_t *pdep = pgdir[PDX(la)];
+
+    if (!(*pdep && PTE_P)) {
+        struct Page *page;
+        if(create){
+            page= alloc_pages();
+            set_page_ref(page,1);
+            uintptr_t *pa=page2pa(page);
+            uintptr_t *la2=KADDR(pa);
+            memset(pa, 0, PGSIZE);
+        }
+
+    }
+
 }
 
 //get_page - get related Page struct for linear address la using PDT pgdir
@@ -436,8 +452,7 @@ page_insert(pde_t *pgdir, struct Page *page, uintptr_t la, uint32_t perm) {
         struct Page *p = pte2page(*ptep);
         if (p == page) {
             page_ref_dec(page);
-        }
-        else {
+        } else {
             page_remove_pte(pgdir, la, ptep);
         }
     }
@@ -451,7 +466,7 @@ page_insert(pde_t *pgdir, struct Page *page, uintptr_t la, uint32_t perm) {
 void
 tlb_invalidate(pde_t *pgdir, uintptr_t la) {
     if (rcr3() == PADDR(pgdir)) {
-        invlpg((void *)la);
+        invlpg((void *) la);
     }
 }
 
@@ -464,7 +479,7 @@ check_alloc_page(void) {
 static void
 check_pgdir(void) {
     assert(npage <= KMEMSIZE / PGSIZE);
-    assert(boot_pgdir != NULL && (uint32_t)PGOFF(boot_pgdir) == 0);
+    assert(boot_pgdir != NULL && (uint32_t) PGOFF(boot_pgdir) == 0);
     assert(get_page(boot_pgdir, 0x0, NULL) == NULL);
 
     struct Page *p1, *p2;
@@ -476,7 +491,7 @@ check_pgdir(void) {
     assert(pte2page(*ptep) == p1);
     assert(page_ref(p1) == 1);
 
-    ptep = &((pte_t *)KADDR(PDE_ADDR(boot_pgdir[0])))[1];
+    ptep = &((pte_t *) KADDR(PDE_ADDR(boot_pgdir[0])))[1];
     assert(get_pte(boot_pgdir, PGSIZE, 0) == ptep);
 
     p2 = alloc_page();
@@ -514,7 +529,7 @@ check_boot_pgdir(void) {
     pte_t *ptep;
     int i;
     for (i = 0; i < npage; i += PGSIZE) {
-        assert((ptep = get_pte(boot_pgdir, (uintptr_t)KADDR(i), 0)) != NULL);
+        assert((ptep = get_pte(boot_pgdir, (uintptr_t) KADDR(i), 0)) != NULL);
         assert(PTE_ADDR(*ptep) == i);
     }
 
@@ -530,11 +545,11 @@ check_boot_pgdir(void) {
     assert(page_ref(p) == 2);
 
     const char *str = "ucore: Hello world!!";
-    strcpy((void *)0x100, str);
-    assert(strcmp((void *)0x100, (void *)(0x100 + PGSIZE)) == 0);
+    strcpy((void *) 0x100, str);
+    assert(strcmp((void *) 0x100, (void *) (0x100 + PGSIZE)) == 0);
 
-    *(char *)(page2kva(p) + 0x100) = '\0';
-    assert(strlen((const char *)0x100) == 0);
+    *(char *) (page2kva(p) + 0x100) = '\0';
+    assert(strlen((const char *) 0x100) == 0);
 
     free_page(p);
     free_page(pde2page(boot_pgdir[0]));
@@ -571,15 +586,15 @@ get_pgtable_items(size_t left, size_t right, size_t start, uintptr_t *table, siz
         return 0;
     }
     while (start < right && !(table[start] & PTE_P)) {
-        start ++;
+        start++;
     }
     if (start < right) {
         if (left_store != NULL) {
             *left_store = start;
         }
-        int perm = (table[start ++] & PTE_USER);
+        int perm = (table[start++] & PTE_USER);
         while (start < right && (table[start] & PTE_USER) == perm) {
-            start ++;
+            start++;
         }
         if (right_store != NULL) {
             *right_store = start;
