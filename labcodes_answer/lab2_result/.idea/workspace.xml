@@ -13,48 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da1d345a-cfcf-44f6-a449-35c79986dbc4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/bin/bootblock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/kernel" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/sign" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bin/ucore.img" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/boot/bootasm.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/boot/bootmain.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/bootblock.asm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/bootblock.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/bootblock.out" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/debug/kdebug.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/debug/kmonitor.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/debug/panic.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/driver/clock.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/driver/console.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/driver/intr.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/driver/picirq.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/init/entry.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/init/init.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/libs/readline.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/libs/stdio.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/mm/default_pmm.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/mm/pmm.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/trap/trap.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/trap/trapentry.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kern/trap/vectors.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kernel.asm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/kernel.sym" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/libs/printfmt.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/libs/string.o" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/obj/sign/tools/sign.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel_nopage" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/bin/kernel_nopage" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/bin/ucore.img" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/bin/ucore.img" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/default_pmm.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/default_pmm.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/pmm.c" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/kern/mm/pmm.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/default_pmm.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/default_pmm.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/pmm.o" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kern/mm/pmm.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.asm" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.asm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.sym" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.asm" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.asm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.sym" beforeDir="false" afterPath="$PROJECT_DIR$/../../labcodes/lab2/obj/kernel_nopage.sym" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,6 +93,7 @@
       <workItem from="1658757749586" duration="859000" />
       <workItem from="1658761220610" duration="1592000" />
       <workItem from="1658845075094" duration="39000" />
+      <workItem from="1658917343981" duration="170000" />
     </task>
     <servers />
   </component>

@@ -363,19 +363,22 @@ get_pte(pde_t *pgdir, uintptr_t la, bool create) {
     }
     return NULL;          // (8) return page table entry
 #endif
-    pde_t *pdep = pgdir[PDX(la)];
+    pde_t *pdep = &pgdir[PDX(la)];
 
     if (!(*pdep && PTE_P)) {
         struct Page *page;
-        if(create){
-            page= alloc_pages();
-            set_page_ref(page,1);
-            uintptr_t *pa=page2pa(page);
-            uintptr_t *la2=KADDR(pa);
+        if (create) {
+            page = alloc_pages();
+            set_page_ref(page, 1);
+            uintptr_t *pa = page2pa(page);
+            uintptr_t *la2 = KADDR(pa);
             memset(pa, 0, PGSIZE);
         }
+        //set permission
+        pdep = pa && (PTE_P | PTE_U | PTE_W)
 
     }
+    return   pdep[PTX[la]]
 
 }
 
