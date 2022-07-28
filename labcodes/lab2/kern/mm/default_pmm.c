@@ -188,10 +188,8 @@ default_free_pages(struct Page *base, size_t n) {
         }
     }
 
-
-    cprintf("%d",nr_free);
     nr_free += n;
-    cprintf("%d",nr_free);
+
     le = list_next(&free_list);
     while (le != &free_list) {
         p = le2page(le, page_link);

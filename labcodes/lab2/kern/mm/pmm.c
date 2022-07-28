@@ -251,6 +251,7 @@ page_init(void) {
 //  perm: permission of this memory  
 static void
 boot_map_segment(pde_t *pgdir, uintptr_t la, size_t size, uintptr_t pa, uint32_t perm) {
+    cprintf("%08x",pgdir);
     assert(PGOFF(la) == PGOFF(pa));
     size_t n = ROUNDUP(size + PGOFF(la), PGSIZE) / PGSIZE;
     la = ROUNDDOWN(la, PGSIZE);
@@ -368,7 +369,9 @@ get_pte(pde_t *pgdir, uintptr_t la, bool create) {
 
     if (!(*pdep & PTE_P)) {
         struct Page *page;
-        if (create) {
+        if (!create) {
+            return NULL;
+        } else {
             page = alloc_page();
             if (page == NULL) return;
             set_page_ref(page, 1);
@@ -383,7 +386,7 @@ get_pte(pde_t *pgdir, uintptr_t la, bool create) {
     }
 //    PTE_ADDR(pte)
 //    &((pte_t *)KADDR(PDE_ADDR(*pdep)))[PTX(la)];
-    return &((pte_t *)KADDR(PDE_ADDR(*pdep)))[PTX(la)];
+    return &((pte_t *) KADDR(PDE_ADDR(*pdep)))[PTX(la)];
 
 //    pde_t *pdep = &pgdir[PDX(la)];
 //    // 如果该条目不可用(not present)
@@ -449,6 +452,17 @@ page_remove_pte(pde_t *pgdir, uintptr_t la, pte_t *ptep) {
                                   //(6) flush tlb
     }
 #endif
+
+    if (*ptep & PTE_P){
+    struct Page *page = pte2page(*ptep);
+    page_ref_dec(page);
+    if (page->ref == 0) {
+        free_page(page);
+    }
+    *ptep=0;
+    tlb_invalidate(pgdir, la);
+    }
+
 }
 
 //page_remove - free an Page which is related linear address la and has an validated pte
