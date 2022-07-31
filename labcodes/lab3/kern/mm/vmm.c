@@ -116,6 +116,7 @@ insert_vma_struct(struct mm_struct *mm, struct vma_struct *vma) {
         list_entry_t *le = list;
         while ((le = list_next(le)) != list) {
             struct vma_struct *mmap_prev = le2vma(le, list_link);
+            //找到mm，list链条vma中vm_start大于现在要插入的一个
             if (mmap_prev->vm_start > vma->vm_start) {
                 break;
             }
@@ -125,6 +126,7 @@ insert_vma_struct(struct mm_struct *mm, struct vma_struct *vma) {
     le_next = list_next(le_prev);
 
     /* check overlap */
+    //测试前后虚拟内存是否重叠，重叠则报错
     if (le_prev != list) {
         check_vma_overlap(le2vma(le_prev, list_link), vma);
     }
