@@ -372,6 +372,51 @@ get_pte(pde_t *pgdir, uintptr_t la, bool create) {
     }
     return NULL;          // (8) return page table entry
 #endif
+
+    pde_t *pdep = &pgdir[PDX(la)];
+    uintptr_t pa1, la2;
+
+    if (!(*pdep & PTE_P)) {
+        struct Page *page;
+        if (!create) {
+            return NULL;
+        } else {
+            page = alloc_page();
+            if (page == NULL) return;
+            set_page_ref(page, 1);
+            pa1 = page2pa(page);
+            la2 = KADDR(pa1);
+            memset(la2, 0, PGSIZE);
+            //set permission
+            //这里为何要用物理地址？可能这个机制是物理寻址
+//            *pdep = la2 | PTE_P | PTE_U | PTE_W;
+            *pdep = pa1 | PTE_P | PTE_U | PTE_W;
+        }
+    }
+//    PTE_ADDR(pte)
+//    &((pte_t *)KADDR(PDE_ADDR(*pdep)))[PTX(la)];
+    return &((pte_t *) KADDR(PDE_ADDR(*pdep)))[PTX(la)];
+
+//    pde_t *pdep = &pgdir[PDX(la)];
+//    // 如果该条目不可用(not present)
+//    if (!(*pdep & PTE_P)) {
+//        struct Page *page;
+//        // 如果分配页面失败，或者不允许分配，则返回NULL
+//        if (!create || (page = alloc_page()) == NULL)
+//            return NULL;
+//        // 设置该物理页面的引用次数为1
+//        set_page_ref(page, 1);
+//        // 获取当前物理页面所管理的物理地址
+//        uintptr_t pa = page2pa(page);
+//        // 清空该物理页面的数据。需要注意的是使用虚拟地址
+//        memset(KADDR(pa), 0, PGSIZE);
+//        // 将新分配的页面设置为当前缺失的页目录条目中
+//        // 之后该页面就是其中的一个二级页面
+//        *pdep = pa | PTE_U | PTE_W | PTE_P;
+//    }
+//    // 返回在pgdir中对应于la的二级页表项
+//    return &((pte_t *)KADDR(PDE_ADDR(*pdep)))[PTX(la)];
+
 }
 
 //get_page - get related Page struct for linear address la using PDT pgdir
@@ -417,6 +462,17 @@ page_remove_pte(pde_t *pgdir, uintptr_t la, pte_t *ptep) {
                                   //(6) flush tlb
     }
 #endif
+
+    if (*ptep & PTE_P){
+        struct Page *page = pte2page(*ptep);
+        page_ref_dec(page);
+        if (page->ref == 0) {
+            free_page(page);
+        }
+        *ptep=0;
+        tlb_invalidate(pgdir, la);
+    }
+
 }
 
 //page_remove - free an Page which is related linear address la and has an validated pte

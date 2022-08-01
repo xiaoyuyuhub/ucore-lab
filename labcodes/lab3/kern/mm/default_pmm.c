@@ -135,12 +135,14 @@ default_alloc_pages(size_t n) {
         }
     }
     if (page != NULL) {
-        list_del(&(page->page_link));
+
         if (page->property > n) {
             struct Page *p = page + n;
             p->property = page->property - n;
-            list_add(&free_list, &(p->page_link));
-    }
+            SetPageProperty(p);
+            list_add(&free_list, &(p->page_link)); //?
+        }
+        list_del(&(page->page_link));
         nr_free -= n;
         ClearPageProperty(page);
     }
@@ -150,8 +152,20 @@ default_alloc_pages(size_t n) {
 static void
 default_free_pages(struct Page *base, size_t n) {
     assert(n > 0);
+    struct Page *p1;
+
+//    cprintf("free_list:%x",&free_list);
+//    list_entry_t *le1 = list_next(&free_list);
+//
+//    while (le1 != &free_list) {
+//        p1 = le2page(le1, page_link);
+//        cprintf("le:%x page:%x",le1 , p1);
+//        le1=list_next(le1);
+//    }
+//    cprintf("\n\n");
+
     struct Page *p = base;
-    for (; p != base + n; p ++) {
+    for (; p != base + n; p++) {
         assert(!PageReserved(p) && !PageProperty(p));
         p->flags = 0;
         set_page_ref(p, 0);
@@ -166,16 +180,37 @@ default_free_pages(struct Page *base, size_t n) {
             base->property += p->property;
             ClearPageProperty(p);
             list_del(&(p->page_link));
-        }
-        else if (p + p->property == base) {
+        } else if (p + p->property == base) {
             p->property += base->property;
             ClearPageProperty(base);
-            base = p;
+            base = p;//?
             list_del(&(p->page_link));
         }
     }
+
     nr_free += n;
-    list_add(&free_list, &(base->page_link));
+
+    le = list_next(&free_list);
+    while (le != &free_list) {
+        p = le2page(le, page_link);
+        le = list_next(le);
+        if (base + base->property < p) {
+            break;
+        }
+
+    }
+
+    //这里理解为什么要用add——before，因为是FF，先进先出
+    list_add_before(le, &(base->page_link));
+//    list_add(le,&(base->page_link));
+
+//    le1 = list_next(&free_list);
+//    while (le1 != &free_list) {
+//        p1 = le2page(le1, page_link);
+//        cprintf("le:%x page:%x",le1 , p1);
+//        le1=list_next(le1);
+//    }
+//    cprintf("\n\n");
 }
 
 static size_t
