@@ -246,7 +246,7 @@ debug-nox: $(UCOREIMG) $(SWAPIMG)
 	$(V)$(TERMINAL) -e "$(GDB) -q -x tools/gdbinit"
 
 debug-clion: $(UCOREIMG) $(SWAPIMG) $(SFSIMG)
-	qemu-system-i386 -S -s -hda ./bin/ucore.img -monitor stdio
+	qemu-system-i386 -S -s -hda ./bin/ucore.img -monitor stdio -drive file=./bin/swap.img
 
 .PHONY: grade touch
 
