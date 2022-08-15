@@ -275,7 +275,7 @@ copy_thread(struct proc_struct *proc, uintptr_t esp, struct trapframe *tf) {
 
 /* do_fork -     parent process for a new child process
  * @clone_flags: used to guide how to clone the child process
- * @stack:       the parent's user stack pointer. if stack==0, It means to fork a kernel thread.
+ * @stack:       the parent's user stack pointer. if stack==0, It means to fork a kernel thread. xuyu?这个还不是很理解
  * @tf:          the trapframe info, which will be copied to child process's proc->tf
  */
 int
@@ -312,6 +312,21 @@ do_fork(uint32_t clone_flags, uintptr_t stack, struct trapframe *tf) {
     //    6. call wakeup_proc to make the new child process RUNNABLE
     //    7. set ret vaule using child proc's pid
 
+    proc = alloc_proc();
+    setup_kstack(proc);
+    proc->parent = current;
+    copy_mm(0, proc);
+    copy_thread(proc, 0, tf);
+
+    proc->pid = get_pid();
+
+    list_add_before(&proc_list, &(proc->list_link));
+    hash_proc(proc);
+
+    wakeup_proc(proc);
+
+
+    ret = proc->pid;
 
 
     fork_out:
