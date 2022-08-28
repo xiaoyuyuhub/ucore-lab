@@ -288,6 +288,9 @@ debug-nox: $(UCOREIMG) $(SWAPIMG)
 	$(V)sleep 2
 	$(V)$(TERMINAL) -e "$(GDB) -q -x tools/gdbinit"
 
+debug-clion: $(UCOREIMG) $(SWAPIMG) $(SFSIMG)
+	qemu-system-i386 -S -s -hda ./bin/ucore.img -monitor stdio -drive file=./bin/swap.img
+
 RUN_PREFIX	:= _binary_$(OBJDIR)_$(USER_PREFIX)
 MAKEOPTS	:= --quiet --no-print-directory
 
