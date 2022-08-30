@@ -645,6 +645,13 @@ load_icode(unsigned char *binary, size_t size) {
      *          tf_eip should be the entry point of this binary program (elf->e_entry)
      *          tf_eflags should be set to enable computer to produce Interrupt
      */
+
+    tf->tf_cs=USER_CS;
+    tf->tf_ds=tf->tf_es=ttf->f_ss=USER_DS;
+    tf->tf_esp=USTACKTOP;
+    tf->tf_eip
+
+
     ret = 0;
 out:
     return ret;
