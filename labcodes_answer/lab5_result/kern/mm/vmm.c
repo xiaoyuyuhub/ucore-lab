@@ -502,6 +502,7 @@ do_pgfault(struct mm_struct *mm, uint32_t error_code, uintptr_t addr) {
         }
     }
     else {
+
         struct Page *page=NULL;
         cprintf("do pgfault: ptep %x, pte %x\n",ptep, *ptep);
         if (*ptep & PTE_P) {

@@ -647,10 +647,10 @@ load_icode(unsigned char *binary, size_t size) {
      */
 
     tf->tf_cs=USER_CS;
-    tf->tf_ds=tf->tf_es=ttf->f_ss=USER_DS;
+    tf->tf_ds=tf->tf_ss=USER_DS;
     tf->tf_esp=USTACKTOP;
-    tf->tf_eip
-
+    tf->tf_eip=elf->e_entry;
+    tf->tf_eflags = FL_IF;
 
     ret = 0;
 out:

@@ -524,7 +524,7 @@ copy_range(pde_t *to, pde_t *from, uintptr_t start, uintptr_t end, bool share) {
 
             void *src=   page2kva(page);
             void *dest=   page2kva(npage);
-            memcpy(src,dest,PGSIZE);
+            memcpy(dest,src,PGSIZE);
             ret= page_insert(to,npage,start,perm);
 
         assert(ret == 0);
