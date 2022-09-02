@@ -267,6 +267,9 @@ qemu: $(UCOREIMG) $(SWAPIMG)
 qemu-nox: $(UCOREIMG) $(SWAPIMG)
 	$(V)$(QEMU) -serial mon:stdio $(QEMUOPTS) -nographic
 
+debug-clion: $(UCOREIMG) $(SWAPIMG) $(SFSIMG)
+	qemu-system-i386 -S -s -hda ./bin/ucore.img -monitor stdio -drive file=./bin/swap.img
+
 TERMINAL := gnome-terminal
 
 debug: $(UCOREIMG) $(SWAPIMG)
