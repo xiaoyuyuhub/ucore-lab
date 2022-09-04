@@ -815,7 +815,7 @@ user_main(void *arg) {
 #ifdef TEST
     KERNEL_EXECVE2(TEST, TESTSTART, TESTSIZE);
 #else
-    KERNEL_EXECVE(priority);
+    KERNEL_EXECVE(forktest);
 #endif
     panic("user_main execve failed.\n");
 }
