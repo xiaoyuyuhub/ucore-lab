@@ -232,7 +232,7 @@ trap_dispatch(struct trapframe *tf) {
          *    Every TICK_NUM cycle, you should set current process's current->need_resched = 1
          */
         ticks ++;
-            print_ticks();
+        if (ticks%TICK_NUM ==0) print_ticks();
         assert(current != NULL);
         sched_class_proc_tick(current);
         break;

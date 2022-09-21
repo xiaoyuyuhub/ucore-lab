@@ -93,6 +93,7 @@ schedule(void) {
         }
         next->runs ++;
         if (next != current) {
+            cprintf("schedual");
             proc_run(next);
         }
     }
