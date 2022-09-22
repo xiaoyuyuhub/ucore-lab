@@ -184,6 +184,13 @@ void phi_take_forks_condvar(int i) {
      // LAB7 EXERCISE1: YOUR CODE
      // I am hungry
      // try to get fork
+
+    s[i]=HUNGRY;
+    phi_test_condvar(i);
+    if (s[i]!=EATING){
+        cond_wait(s[i]);
+    }
+
 //--------leave routine in monitor--------------
       if(mtp->next_count>0)
          up(&(mtp->next));
