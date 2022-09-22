@@ -33,6 +33,7 @@ static __noinline uint32_t __down(semaphore_t *sem, uint32_t wait_state) {
     bool intr_flag;
     local_intr_save(intr_flag);
     if (sem->value > 0) {
+        //-1 代表占用
         sem->value --;
         local_intr_restore(intr_flag);
         return 0;
