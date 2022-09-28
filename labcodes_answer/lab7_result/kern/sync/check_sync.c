@@ -4,7 +4,7 @@
 #include <monitor.h>
 #include <assert.h>
 
-#define N 5 /* 哲学家数目 */
+#define N 500 /* 哲学家数目 */
 #define LEFT (i-1+N)%N /* i的左邻号码 */
 #define RIGHT (i+1)%N /* i的右邻号码 */
 #define THINKING 0 /* 哲学家正在思考 */
